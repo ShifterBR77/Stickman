@@ -730,36 +730,6 @@ class PlayState extends MusicBeatState
 					    defaultCamZoom = 0.9;
 						
 						curStage = 'jackroom';
-						var images = [];
-						var xml = [];
-			
-						trace("caching images...");
-						
-							for (i in FileSystem.readDirectory(FileSystem.absolutePath("assets/shared/images/kack")))
-								{
-									if (!i.endsWith(".png"))
-										continue;
-									images.push(i);
-						
-									if (!i.endsWith(".xml"))
-										continue;
-									xml.push(i);
-								}
-							for (i in images)
-									{
-										var replaced = i.replace(".png","");
-										FlxG.bitmap.add(Paths.image("kack/" + replaced,"shared"));
-										
-										trace("cached " + replaced);
-									}
-								
-								for (i in xml)
-									{
-										var replaced = i.replace(".xml","");
-										FlxG.bitmap.add(Paths.image("kack/" + replaced,"shared"));
-										
-										trace("cached " + replaced);
-									}
 						var bg:FlxSprite = new FlxSprite(-3000, -200).loadGraphic(Paths.image('kack/Jack BG'));
 						bg.antialiasing = true;
 						bg.scrollFactor.set(0.9, 0.9);
@@ -777,36 +747,7 @@ class PlayState extends MusicBeatState
 					    defaultCamZoom = 0.9;
 						
 						curStage = 'jackroomfight';
-						var images = [];
-						var xml = [];
-			
-						trace("caching images...");
 						
-							for (i in FileSystem.readDirectory(FileSystem.absolutePath("assets/shared/images/kack")))
-								{
-									if (!i.endsWith(".png"))
-										continue;
-									images.push(i);
-						
-									if (!i.endsWith(".xml"))
-										continue;
-									xml.push(i);
-								}
-							for (i in images)
-									{
-										var replaced = i.replace(".png","");
-										FlxG.bitmap.add(Paths.image("kack/" + replaced,"shared"));
-										
-										trace("cached " + replaced);
-									}
-								
-								for (i in xml)
-									{
-										var replaced = i.replace(".xml","");
-										FlxG.bitmap.add(Paths.image("kack/" + replaced,"shared"));
-										
-										trace("cached " + replaced);
-									}
 						var bg:FlxSprite = new FlxSprite(-3000, -200).loadGraphic(Paths.image('kack/Jack BG'));
 						bg.antialiasing = true;
 						bg.scrollFactor.set(0.9, 0.9);
@@ -828,36 +769,6 @@ class PlayState extends MusicBeatState
 				{
 					defaultCamZoom = 0.9;
 					curStage = 'disyroom';
-					var images = [];
-						var xml = [];
-			
-						trace("caching images...");
-						
-							for (i in FileSystem.readDirectory(FileSystem.absolutePath("assets/shared/images/disy")))
-								{
-									if (!i.endsWith(".png"))
-										continue;
-									images.push(i);
-						
-									if (!i.endsWith(".xml"))
-										continue;
-									xml.push(i);
-								}
-							for (i in images)
-									{
-										var replaced = i.replace(".png","");
-										FlxG.bitmap.add(Paths.image("disy/" + replaced,"shared"));
-										
-										trace("cached " + replaced);
-									}
-								
-								for (i in xml)
-									{
-										var replaced = i.replace(".xml","");
-										FlxG.bitmap.add(Paths.image("disy/" + replaced,"shared"));
-										
-										trace("cached " + replaced);
-									}
 					room = new FlxSprite(-800, -200).loadGraphic(Paths.image('kack/Jack BG'));
 					room.antialiasing = true;
 					room.scrollFactor.set(0.9, 0.9);
@@ -3673,14 +3584,13 @@ class PlayState extends MusicBeatState
 
 			public function backgroundVideo(source:String) // for background videos
 				{
-					#if cpp
 					useVideo = true;
 			
 					FlxG.stage.window.onFocusOut.add(focusOut);
 					FlxG.stage.window.onFocusIn.add(focusIn);
 
 					var ourSource:String = "assets/videos/daWeirdVid/dontDelete.webm";
-					WebmPlayer.SKIP_STEP_LIMIT = 90;
+					//WebmPlayer.SKIP_STEP_LIMIT = 90;
 					var str1:String = "WEBM SHIT"; 
 					webmHandler = new WebmHandler();
 					webmHandler.source(ourSource);
@@ -3724,7 +3634,6 @@ class PlayState extends MusicBeatState
 						webmHandler.pause();
 					else
 						webmHandler.resume();
-					#end
 				}
 
 	function noteMiss(direction:Int = 1, daNote:Note):Void

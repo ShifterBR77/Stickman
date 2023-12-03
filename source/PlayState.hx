@@ -118,7 +118,7 @@ class PlayState extends MusicBeatState
 	#end
 
 	private var vocals:FlxSound;
-
+        public static var loadRep:Bool = false;
 	public var originalX:Float;
 
 	public static var dad:Character;

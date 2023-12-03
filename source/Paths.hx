@@ -8,7 +8,8 @@ import openfl.utils.Assets as OpenFlAssets;
 class Paths
 {
 	inline public static var SOUND_EXT = #if web "mp3" #else "ogg" #end;
-
+        inline public static var VIDEO_EXT = "mp4";
+	
 	static var currentLevel:String;
 
 	static public function setCurrentLevel(name:String)
@@ -89,10 +90,9 @@ class Paths
 	{
 		return sound(key + FlxG.random.int(min, max), library);
 	}
-	inline static public function video(key:String, ?library:String)
+	static public function video(key:String)
 	{
-		trace('assets/videos/$key.mp4');
-		return getPath('videos/$key.mp4', BINARY, library);
+		return 'assets/videos/$key.$VIDEO_EXT';
 	}
 	inline static public function music(key:String, ?library:String)
 	{

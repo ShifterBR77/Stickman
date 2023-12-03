@@ -22,9 +22,6 @@ class Youtube extends MusicBeatSubstate
     var click:FlxSprite;
     var videogroup:FlxTypedGroup<FlxSprite>;
     var curSelected:Int = 0;
-    #if VIDEOS_ALLOWED
-    var video:MP4Handler = new MP4Handler();
-    #end
     var isCutscene:Bool = false;
     var disy:FlxSprite;
     var bal:FlxSprite;
@@ -206,8 +203,10 @@ class Youtube extends MusicBeatSubstate
                         PlayState.stickthingidk = true;
                         remove(click);
                         trace(PlayState.isStoryMode);
-                        video.playVideo(Paths.video('intro'), new PlayState()); 
-                        
+                        #if VIDEOS_ALLOWED
+                        var video:MP4Handler = new MP4Handler();
+			video.playVideo(Paths.video('intro'), new PlayState()); 
+                        #end 
                     });
             }
         }

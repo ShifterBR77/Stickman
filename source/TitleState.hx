@@ -59,7 +59,8 @@ class TitleState extends MusicBeatState
 		}
 		
 		PlayerSettings.init();
-
+                KadeEngineData.initSave();
+		FlxG.save.bind('funkin', 'ninjamuffin99');
 		#if windows
 		DiscordClient.initialize();
 

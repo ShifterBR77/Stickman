@@ -53,14 +53,17 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
+		#if android
+		FlxG.android.preventDefaultKeys = [BACK];
+		#end
+		
 		@:privateAccess
 		{
 			trace("Loaded " + openfl.Assets.getLibrary("default").assetsLoaded + " assets (DEFAULT)");
 		}
 		
 		PlayerSettings.init();
-                KadeEngineData.initSave();
-		FlxG.save.bind('funkin', 'ninjamuffin99');
+
 		#if windows
 		DiscordClient.initialize();
 

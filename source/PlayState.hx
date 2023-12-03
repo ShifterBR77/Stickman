@@ -2563,7 +2563,9 @@ class PlayState extends MusicBeatState
 								paused = true;
 								FlxG.sound.music.stop();
 								vocals.stop();
-								video.playMP4(Paths.video('cre'), new MainMenuState()); 
+								#if VIDEOS_ALLOWED
+								video.playVideo(Paths.video('cre'), new MainMenuState()); 
+							        #end
 							case 'wrath-soul':
 								transIn = FlxTransitionableState.defaultTransIn;
 								transOut = FlxTransitionableState.defaultTransOut;
@@ -2572,8 +2574,9 @@ class PlayState extends MusicBeatState
 								paused = true;
 								FlxG.sound.music.stop();
 								vocals.stop();
-								video.playMP4(Paths.video('disy'), new MainMenuState()); 
-
+								#if VIDEOS_ALLOWED
+								video.playVideo(Paths.video('disy'), new MainMenuState()); 
+                                                                #end
 						}
 
 						
@@ -2636,13 +2639,17 @@ class PlayState extends MusicBeatState
 							   inCutscene = true;
 							   PlayState.isStoryMode = true;
 							   paused = true;
-				         	   video.playMP4(Paths.video('song2'), new PlayState()); 
-								
-							case "fight":
+				         	           #if VIDEOS_ALLOWED
+					                   video.playVideo(Paths.video('song2'), new PlayState()); 
+							   #end	
+							
+				                case "fight":
 								inCutscene = true;
 								paused = true;
-								video.playMP4(Paths.video('song3'), new PlayState()); 
-                       	 	default:
+								#if VIDEOS_ALLOWED
+					                        video.playVideo(Paths.video('song3'), new PlayState()); 
+                       	 	 ?                              #end
+				default:
                            		LoadingState.loadAndSwitchState(new PlayState());
                      	}
 						
@@ -3225,6 +3232,7 @@ class PlayState extends MusicBeatState
 
 			public function backgroundVideo(source:String) // for background videos
 				{
+				        #if desktop
 					useVideo = true;
 			
 					FlxG.stage.window.onFocusOut.add(focusOut);
@@ -3275,6 +3283,7 @@ class PlayState extends MusicBeatState
 						webmHandler.pause();
 					else
 						webmHandler.resume();
+				        #end
 				}
 
 	function noteMiss(direction:Int = 1, daNote:Note):Void

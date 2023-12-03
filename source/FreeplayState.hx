@@ -192,8 +192,8 @@ class FreeplayState extends MusicBeatState
 		scoreText.text = "PERSONAL BEST:" + lerpScore;
 		comboText.text = combo + '\n';
 
-		var upP = FlxG.keys.justPressed.UP;
-		var downP = FlxG.keys.justPressed.DOWN;
+		var upP = controls.UP_P;
+		var downP = controls.DOWN_P;
 		var accepted = controls.ACCEPT;
 
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
@@ -229,18 +229,18 @@ class FreeplayState extends MusicBeatState
 
 		if (songs[curSelected].songName.toLowerCase() != "boombox" && songs[curSelected].songName.toLowerCase() != "fight" && songs[curSelected].songName.toLowerCase() != "sticking" && songs[curSelected].songName.toLowerCase() != "serious")
 			{
-				if (FlxG.keys.justPressed.RIGHT)
+				if (controls.RIGHT_P)
 					changeDiff(1);
-				if (FlxG.keys.justPressed.LEFT)
+				if (controls.LEFT_P)
 					changeDiff(-1);
 			}  
 			else
 			{
 				curDifficulty = 2;
 				changeDiff();
-				if (FlxG.keys.justPressed.RIGHT)
+				if (controls.RIGHT_P)
 					changeDiff(0);
-				if (FlxG.keys.justPressed.LEFT)
+				if (controls.LEFT_P)
 					changeDiff(0);
 			}
 

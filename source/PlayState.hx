@@ -101,7 +101,6 @@ class PlayState extends MusicBeatState
 	public static var songPosBar:FlxBar;
 
 	public static var rep:Replay;
-	public static var loadRep:Bool = false;
 
 	public static var noteBools:Array<Bool> = [false, false, false, false];
 

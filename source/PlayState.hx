@@ -849,6 +849,12 @@ class PlayState extends MusicBeatState
 		iconP2.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
+
+		#if android
+		addAndroidControls();
+		androidControls.visible = true;
+		#end
+	        
 		if (FlxG.save.data.songPosition)
 		{
 			songPosBG.cameras = [camHUD];
@@ -1833,7 +1839,7 @@ class PlayState extends MusicBeatState
 
 		scoreTxt.x = (originalX - (lengthInPx / 2)) + 335;
 
-		if (controls.PAUSE && startedCountdown && canPause)
+		if (controls.PAUSE #if android || FlxG.android.justReleased.BACK #end && startedCountdown && canPause)
 		{
 			persistentUpdate = false;
 			persistentDraw = true;
@@ -2594,7 +2600,9 @@ class PlayState extends MusicBeatState
 								paused = true;
 								FlxG.sound.music.stop();
 								vocals.stop();
-								video.playMP4(Paths.video('cre'), new MainMenuState()); 
+								#if VIDEOS_ALLOWED
+								video.playVideo(Paths.video('cre'), new MainMenuState()); 
+							        #end
 							case 'wrath-soul':
 								transIn = FlxTransitionableState.defaultTransIn;
 								transOut = FlxTransitionableState.defaultTransOut;
@@ -2603,8 +2611,9 @@ class PlayState extends MusicBeatState
 								paused = true;
 								FlxG.sound.music.stop();
 								vocals.stop();
-								video.playMP4(Paths.video('disy'), new MainMenuState()); 
-
+								#if VIDEOS_ALLOWED
+								video.playVideo(Paths.video('disy'), new MainMenuState()); 
+                                                                #end
 						}
 
 						

@@ -72,6 +72,10 @@ import Sys;
 import sys.FileSystem;
 #end
 
+#if VIDEOS_ALLOWED
+import vlc.MP4Handler;
+#end
+	
 using StringTools;
 
 class PlayState extends MusicBeatState

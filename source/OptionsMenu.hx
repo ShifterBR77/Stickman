@@ -114,6 +114,10 @@ class OptionsMenu extends MusicBeatState
 		FlxTween.tween(versionShit,{y: FlxG.height - 18},2,{ease: FlxEase.elasticInOut});
 		FlxTween.tween(blackBorder,{y: FlxG.height - 18},2, {ease: FlxEase.elasticInOut});
 
+		#if android
+		addVirtualPad(LEFT_FULL, A_B_C);
+		#end
+		
 		super.create();
 	}
 
@@ -124,6 +128,15 @@ class OptionsMenu extends MusicBeatState
 	{
 		super.update(elapsed);
 
+		#if android
+		if (virtualPad.buttonC.justPressed) {
+			#if android
+			removeVirtualPad();
+			#end
+			openSubState(new android.AndroidControlsSubState());
+		}
+		#end
+		
 		if (acceptInput)
 		{
 			if (controls.BACK && !isCat)

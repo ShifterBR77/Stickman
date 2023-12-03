@@ -221,7 +221,11 @@ class CreditShit extends MusicBeatSubstate
             trace(twittershit);
             trace(text);
         
-        }
+#if android
+addVirtualPad(UP_DOWN, A_B);
+#end
+
+	}
     override function update(elapsed:Float)
     {
         if (FlxG.sound.music != null)

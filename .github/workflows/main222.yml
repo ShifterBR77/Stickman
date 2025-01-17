@@ -56,6 +56,7 @@ jobs:
           haxelib install openfl 9.1.0
           haxelib install hxCodec 2.6.1
           haxelib install actuate 1.9.0
+          haxelib install extension-webm
           haxelib git linc_luajit https://github.com/Default-name123/luashitjict.git
           haxelib git extension-androidtools https://github.com/Default-name123/oldtools.git
           haxelib install hxcpp-debug-server

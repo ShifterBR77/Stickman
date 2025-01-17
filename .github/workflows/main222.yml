@@ -1,70 +1,49 @@
-# This is a basic workflow to help you get started with Actions
+name: Android Build CI
 
-name: Build
+on: [workflow_dispatch] 
 
-# Controls when the action will run. 
-on:
-  # Triggers the workflow on push or pull request events but only for the master branch
-  # push:
-   #  branches: [ main ]
- #  pull_request:
-   #  branches: [ main ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  buildAndroid:
-    name: buildAndroid
-    runs-on: ubuntu-latest
+  build-main:
+    name: Android
+    runs-on: ubuntu-${{ matrix.version }}
+    strategy:
+      matrix:
+        arch: [arm64, armv7, 32]
+        build: [release]
+        version: [20.04]
     steps:
       - name: Checkout
         uses: actions/checkout@main
-
       - name: Setup Android NDK
         uses: nttld/setup-ndk@main
         id: setup-ndk
         with:
-          ndk-version: r21e
-
+          ndk-version: r11c
       - name: Setup Java JDK
         uses: actions/setup-java@main
         with:
-          distribution: 'zulu'
-          java-version: 18
-
+          distribution: zulu
+          java-version: 11
       - name: Setup Android SDK
         uses: android-actions/setup-android@main
-
       - name: Setup Haxe
-        uses: krdlab/setup-haxe@v1.2.0
+        uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.2.5
-
+          haxe-version: 4.1.5
       - name: Install Haxelib
         run: |
           haxelib setup ~/haxelib
-          haxelib install hxcpp 4.2.1 > /dev/null
-          haxelib install lime 7.9.0
-          haxelib install flixel 4.11.0
-          haxelib install flixel-addons 2.11.0
-          haxelib install flixel-ui
-          haxelib install hscript
-          haxelib install newgrounds
-          haxelib install openfl 9.1.0
-          haxelib install hxCodec 2.6.1
-          haxelib install actuate 1.9.0
-          haxelib install extension-webm
-          haxelib install polymod
-          haxelib git linc_luajit https://github.com/Default-name123/luashitjict.git
-          haxelib git extension-androidtools https://github.com/Default-name123/oldtools.git
-          haxelib install hxcpp-debug-server
-          haxelib list
-      - name: Create Version Tag
-        run: echo "${{github.run_id}}" > VERSION
-
+          haxelib install lime 7.9.0 --quiet
+          haxelib install hxcpp 4.2.1 --quiet
+          haxelib install openfl 9.1.0 --quiet
+          haxelib install actuate 1.8.9 --quiet
+          haxelib --never install flixel 4.9.0 --quiet
+          haxelib install flixel-ui 2.3.3 --quiet
+          haxelib install hscript 2.4.0 --quiet
+          haxelib install flixel-addons 2.10.0 --quiet
+          haxelib git linc_luajit https://github.com/sirox228/linc_luajit.git
+          haxelib git extension-androidtools https://github.com/MAJigsaw77/extension-androidtools.git
+          haxelib git extension-videoview https://github.com/mcagabe19-stuff/extension-videoview.git
       - name: Setup Lime
         run: |
           haxelib run lime setup -alias -y
@@ -72,20 +51,74 @@ jobs:
           haxelib run lime config ANDROID_NDK_ROOT $ANDROID_NDK_HOME
           haxelib run lime config JAVA_HOME $JAVA_HOME
           haxelib run lime config ANDROID_SETUP true
-          haxelib set flixel-addons 2.11.0
-          haxelib set flixel 4.11.0
-          haxelib set openfl 9.1.0
-          haxelib set lime 7.9.0
-          haxelib set hxCodec 2.6.1
-          haxelib set hxcpp 4.2.1
         env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
-
       - name: Compile
-        run: haxelib run lime build android --app-version="4.0.0-${{ github.run_id}}"
-
+        run: haxelib run lime build android -D mobileC -D NO_PRECOMPILED_HEADERS -${{ matrix.build }} -${{ matrix.arch }}
+        env:
+          cert_pass: 123456
+          cert_alias_pass: 123456
       - name: Publish Artifact
         uses: actions/upload-artifact@main
         with:
-          name: Sonic-Android
-          path: export/release/android/bin/app/build/outputs/apk/debug
+          name: build-ubuntu${{ matrix.version }}-${{ matrix.arch }}-${{ matrix.build }}
+          path: 'export/${{ matrix.build }}/android/bin/app/build/outputs/apk/${{ matrix.build }}/*.apk'
+  build-armv6:
+    name: Android
+    runs-on: ubuntu-${{ matrix.version }}
+    strategy:
+      matrix:
+        arch: [armv6]
+        build: [release]
+        version: [20.04]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Setup Android NDK
+        uses: nttld/setup-ndk@main
+        id: setup-ndk
+        with:
+          ndk-version: r11c
+      - name: Setup Java JDK
+        uses: actions/setup-java@main
+        with:
+          distribution: zulu
+          java-version: 11
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@main
+      - name: Setup Haxe
+        uses: krdlab/setup-haxe@master
+        with:
+          haxe-version: 4.1.5
+      - name: Install Haxelib
+        run: |
+          haxelib setup ~/haxelib
+          haxelib install lime 7.9.0 --quiet
+          haxelib install hxcpp 4.2.1 --quiet
+          haxelib install openfl 9.1.0 --quiet
+          haxelib install actuate 1.8.9 --quiet
+          haxelib --never git flixel https://github.com/mcagabe19/flixel-4.9.0.git
+          haxelib install flixel-ui 2.3.3 --quiet
+          haxelib install hscript 2.4.0 --quiet
+          haxelib install flixel-addons 2.10.0 --quiet
+          haxelib git extension-androidtools https://github.com/MAJigsaw77/extension-androidtools.git
+          haxelib git extension-videoview https://github.com/MAJigsaw77/extension-videoview.git
+      - name: Setup Lime
+        run: |
+          haxelib run lime setup -alias -y
+          haxelib run lime config ANDROID_SDK $ANDROID_HOME
+          haxelib run lime config ANDROID_NDK_ROOT $ANDROID_NDK_HOME
+          haxelib run lime config JAVA_HOME $JAVA_HOME
+          haxelib run lime config ANDROID_SETUP true
+        env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+      - name: Compile
+        run: haxelib run lime build android -D nolua -D mobileC -D NO_PRECOMPILED_HEADERS -${{ matrix.build }} -${{ matrix.arch }}
+        env:
+          cert_pass: 123456
+          cert_alias_pass: 123456
+      - name: Publish Artifact
+        uses: actions/upload-artifact@main
+        with:
+          name: build-ubuntu${{ matrix.version }}-${{ matrix.arch }}-${{ matrix.build }}
+          path: 'export/${{ matrix.build }}/android/bin/app/build/outputs/apk/${{ matrix.build }}/*.apk'

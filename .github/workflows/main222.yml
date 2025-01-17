@@ -57,6 +57,7 @@ jobs:
           haxelib install hxCodec 2.6.1
           haxelib install actuate 1.9.0
           haxelib install extension-webm
+          haxelib install polymod
           haxelib git linc_luajit https://github.com/Default-name123/luashitjict.git
           haxelib git extension-androidtools https://github.com/Default-name123/oldtools.git
           haxelib install hxcpp-debug-server
